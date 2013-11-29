@@ -12,7 +12,8 @@ function leftPad(val) {
 app.use("/", express.static(__dirname + '/public'));
 
 app.get('/api/code', function(req, res) {
-  var ret = leftPad(code++);
+  code++;
+  var ret = leftPad(code);
   res.json({ code: ret });
 });
 
