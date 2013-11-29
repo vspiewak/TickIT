@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 
-var code = 1;
+var code = 0;
 
 function leftPad(val) {
   var ret = "" + val;
@@ -13,9 +13,12 @@ app.use("/", express.static(__dirname + '/public'));
 
 app.get('/api/code', function(req, res) {
   var ret = leftPad(code++);
-
   res.json({ code: ret });
+});
 
+app.get('/api/reset', function(req, res) {
+  code = 0;
+  res.send(200);
 });
 
 app.listen(3000);
