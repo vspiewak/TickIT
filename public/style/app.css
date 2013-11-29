@@ -1,0 +1,16 @@
+body {
+	font-family: 'Roboto Condensed', sans-serif;
+	font-size: 350px;
+}
+
+.ticket {
+	margin: 0 auto 0 auto;
+	height: 725px;
+	width: 1161px;
+	background-image: url('img/ticket.jpg');
+	text-align: center;
+}
+
+#counter {
+	padding-top: 100px;
+}
