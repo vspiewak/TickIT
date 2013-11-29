@@ -10,7 +10,8 @@ app.get('/api/code', function(req, res) {
   var pad = "000";
   ret = pad.substring(0, pad.length - ret.length) + ret; 
 
-  res.send(ret);
+  res.json({ code: ret });
+
 });
 
 app.listen(3000);
