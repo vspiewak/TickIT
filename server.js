@@ -9,6 +9,8 @@ function leftPad(val) {
   return pad.substring(0, pad.length - ret.length) + ret;
 }
 
+app.use("/", express.static(__dirname + '/public'));
+
 app.get('/api/code', function(req, res) {
   var ret = leftPad(code++);
 
