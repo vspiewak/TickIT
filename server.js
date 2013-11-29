@@ -3,12 +3,14 @@ var app = express();
 
 var code = 1;
 
-app.get('/api/code', function(req, res) {
-  code++;
-
-  var ret = "" + code;
+function leftPad(val) {
+  var ret = "" + val;
   var pad = "000";
-  ret = pad.substring(0, pad.length - ret.length) + ret; 
+  return pad.substring(0, pad.length - ret.length) + ret;
+}
+
+app.get('/api/code', function(req, res) {
+  var ret = leftPad(code++);
 
   res.json({ code: ret });
 
