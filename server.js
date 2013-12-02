@@ -66,9 +66,6 @@ var TickItApp = function() {
     /*  App server functions (main app logic here).                       */
     /*  ================================================================  */
     
-    /**
-     * pad to left 
-     */
     self.leftPad = function(val) {
       var ret = "" + val;
       var pad = "000";
@@ -91,6 +88,7 @@ var TickItApp = function() {
         self.routes = { };
 
         self.routes['/api/counter'] = function(req, res) {
+            
             var counter = self.readCounter();
             
             if(req.query.id != counter.id) {
