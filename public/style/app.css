@@ -5,13 +5,14 @@ body {
 }
 
 .ticket {
-	margin: 0 auto 0 auto;
+	margin: 0 auto;
 	height: 800px;
-	width: 1000px;
-	background-image: url('img/ticket.png');
-	text-align: center;
+	width: 917px;
+	background: url('img/ticket.png') center no-repeat;
 }
 
 #counter {
-	padding-top: 230px;
+	position: absolute;
+	top: 220px;
+	left: 300px;
 }
