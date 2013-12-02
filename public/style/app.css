@@ -1,0 +1,18 @@
+body {
+	font-family: 'Roboto Condensed', sans-serif;
+	font-size: 250px;
+	background-image: url('img/ticks.png');
+}
+
+.ticket {
+	margin: 0 auto;
+	height: 800px;
+	width: 917px;
+	background: url('img/ticket.png') center no-repeat;
+}
+
+#counter {
+	position: absolute;
+	top: 220px;
+	left: 300px;
+}

@@ -3,15 +3,13 @@
 var express = require('express');
 var fs      = require('fs');
 
-
 /**
  *  Define the sample application.
  */
-var SampleApp = function() {
+var TickItApp = function() {
 
     //  Scope.
     var self = this;
-
 
     /*  ================================================================  */
     /*  Helper functions.                                                 */
@@ -61,7 +59,7 @@ var SampleApp = function() {
      */
     self.terminator = function(sig){
         if (typeof sig === "string") {
-           console.log('%s: Received %s - terminating sample app ...',
+           console.log('%s: Received %s - terminating TickIt app ...',
                        Date(Date.now()), sig);
            process.exit(1);
         }
@@ -88,6 +86,15 @@ var SampleApp = function() {
     /*  ================================================================  */
     /*  App server functions (main app logic here).                       */
     /*  ================================================================  */
+    
+    /**
+     * pad to left 
+     */
+    self.leftPad = function(val) {
+      var ret = "" + val;
+      var pad = "000";
+      return pad.substring(0, pad.length - ret.length) + ret;
+    }
 
     /**
      *  Create the routing table entries + handlers for the application.
@@ -95,17 +102,28 @@ var SampleApp = function() {
     self.createRoutes = function() {
         self.routes = { };
 
-        self.routes['/asciimo'] = function(req, res) {
-            var link = "http://i.imgur.com/kmbjB.png";
-            res.send("<html><body><img src='" + link + "'></body></html>");
-        };
-
-        self.routes['/'] = function(req, res) {
+        /*self.routes['/'] = function(req, res) {
             res.setHeader('Content-Type', 'text/html');
             res.send(self.cache_get('index.html') );
-        };
-    };
+        };*/
 
+        self.routes['/api/code'] = function(req, res) {
+            
+            var counter = fs.readFileSync("counter.txt").toString();
+            counter = parseInt(counter);
+            counter++;
+            fs.writeFile("counter.txt", counter);
+
+            var ret = self.leftPad(counter);
+            res.json({ code: ret });
+        };
+
+        self.routes['/api/reset'] = function(req, res) {
+            fs.writeFile("counter.txt", 0);
+            res.send(200);
+        };
+
+    }
 
     /**
      *  Initialize the server (express) and create the routes and register
@@ -113,7 +131,8 @@ var SampleApp = function() {
      */
     self.initializeServer = function() {
         self.createRoutes();
-        self.app = express.createServer();
+        self.app = express();
+        self.app.use("/", express.static(__dirname + '/public'));
 
         //  Add handlers for the app (from the routes).
         for (var r in self.routes) {
@@ -127,7 +146,7 @@ var SampleApp = function() {
      */
     self.initialize = function() {
         self.setupVariables();
-        self.populateCache();
+        //self.populateCache();
         self.setupTerminationHandlers();
 
         // Create the express server and routes.
@@ -146,14 +165,12 @@ var SampleApp = function() {
         });
     };
 
-};   /*  Sample Application.  */
-
-
+};   /*  TickIt Application.  */
 
 /**
  *  main():  Main code.
  */
-var zapp = new SampleApp();
+var zapp = new TickItApp();
 zapp.initialize();
 zapp.start();
 
