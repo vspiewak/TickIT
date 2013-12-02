@@ -94,7 +94,21 @@ var TickItApp = function() {
       var ret = "" + val;
       var pad = "000";
       return pad.substring(0, pad.length - ret.length) + ret;
-    }
+    };
+
+    self.retrieveCounter = function() {
+        var counter = {id: null, code: null};
+        var serializedC = fs.readFileSync("counter.txt").toString();
+        serializedC = serializedC.split(';');
+        if (serializedC.length<2)
+            counter = {id: new Date().getTime(), code: 0};
+        else {
+            counter.code = parseInt(serializedC[0]);
+            counter.id = serializedC[1];
+        }
+
+        return counter;
+    };
 
     /**
      *  Create the routing table entries + handlers for the application.
@@ -109,20 +123,21 @@ var TickItApp = function() {
 
         self.routes['/api/counter'] = function(req, res) {
 
-            var counter = {id: null, code: null};
-            var serializedC = fs.readFileSync("counter.txt").toString();
-            serializedC = serializedC.split(';');
-            if (serializedC.length<2)
-                counter = {id: new Date().getTime(), code: 0};
-            else {
-                counter.code = parseInt(serializedC[0]);
-                counter.id = serializedC[1];
-            }
+            var counter = self.retrieveCounter();
             counter.code += 1;
             fs.writeFile("counter.txt", counter.code+';'+counter.id);
 
             counter.code = self.leftPad(counter.code);
             res.json(counter);
+            
+        };
+
+        self.routes['/api/status'] = function(req, res) {
+
+            var counter = self.retrieveCounter();
+            counter.code = self.leftPad(counter.code);
+            res.json(counter);
+
         };
 
         self.routes['/api/reset'] = function(req, res) {
