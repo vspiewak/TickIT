@@ -12,16 +12,11 @@
         <script type="text/javascript">
         $(document).ready(function() {
 
-            var counter = {
-                id: 0,
-                code: 0
-            };
-
             var getCounter = function() {
                 $.ajax({
                     url:'api/status',
-                    success:function(ret) {
-                        $('#counter').text(ret.code);
+                    success:function(data) {
+                        $('#counter').text(data.code);
                     }
                 });
             };

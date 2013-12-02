@@ -12,7 +12,7 @@
         <script type="text/javascript">
         $(document).ready(function() {
             
-            var counter = $.localStorage.get('counter') || { id: 0, code: 0 };
+            var counter = $.localStorage.get('counter');
 
             var getCounter = function() {
                 $.ajax({
