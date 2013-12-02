@@ -73,12 +73,11 @@ var TickItApp = function() {
     };
 
     self.readCounter = function() {
-        var chars = fs.readFileSync("counter.txt").toString().split(';');
-        return { code: parseInt(chars[0]), id: chars[1] };
+        return JSON.parse(fs.readFileSync("counter.json"));
     };
 
     self.writeCounter = function(counter) {
-      fs.writeFile("counter.txt", counter.code+';'+counter.id);
+      fs.writeFile("counter.json", JSON.stringify(counter));
     }
 
     /**
