@@ -31,27 +31,6 @@ var TickItApp = function() {
         };
     };
 
-
-    /**
-     *  Populate the cache.
-     */
-    self.populateCache = function() {
-        if (typeof self.zcache === "undefined") {
-            self.zcache = { 'index.html': '' };
-        }
-
-        //  Local cache for static content.
-        self.zcache['index.html'] = fs.readFileSync('./index.html');
-    };
-
-
-    /**
-     *  Retrieve entry (content) from cache.
-     *  @param {string} key  Key identifying content to retrieve from cache.
-     */
-    self.cache_get = function(key) { return self.zcache[key]; };
-
-
     /**
      *  terminator === the termination handler
      *  Terminate server on receipt of the specified signal.
@@ -162,7 +141,6 @@ var TickItApp = function() {
      */
     self.initialize = function() {
         self.setupVariables();
-        //self.populateCache();
         self.setupTerminationHandlers();
 
         // Create the express server and routes.
