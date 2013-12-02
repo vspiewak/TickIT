@@ -97,17 +97,8 @@ var TickItApp = function() {
     };
 
     self.retrieveCounter = function() {
-        var counter = {id: null, code: null};
-        var serializedC = fs.readFileSync("counter.txt").toString();
-        serializedC = serializedC.split(';');
-        if (serializedC.length<2)
-            counter = {id: new Date().getTime(), code: 0};
-        else {
-            counter.code = parseInt(serializedC[0]);
-            counter.id = serializedC[1];
-        }
-
-        return counter;
+        var chars = fs.readFileSync("counter.txt").toString().split(';');
+        return { code: parseInt(chars[0]), id: chars[1] };
     };
 
     /**
@@ -123,10 +114,15 @@ var TickItApp = function() {
 
         self.routes['/api/counter'] = function(req, res) {
 
-            var counter = self.retrieveCounter();
-            counter.code += 1;
-            fs.writeFile("counter.txt", counter.code+';'+counter.id);
+            console.log(req);
 
+            var counter = self.retrieveCounter();
+            
+            if(req.query.id != counter.id) {
+              counter.code += 1;
+              fs.writeFile("counter.txt", counter.code+';'+counter.id);
+            }
+            
             counter.code = self.leftPad(counter.code);
             res.json(counter);
             
@@ -141,7 +137,10 @@ var TickItApp = function() {
         };
 
         self.routes['/api/reset'] = function(req, res) {
-            fs.writeFile("counter.txt", 0);
+            var code = 0;
+            var id = new Date().getTime();
+
+            fs.writeFile("counter.txt", code +';' + id);
             res.send(200);
         };
 

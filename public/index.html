@@ -11,22 +11,19 @@
         <script src="vendor/jquery.storageapi.min.js" type="text/javascript"></script>
         <script type="text/javascript">
         $(document).ready(function() {
-            var counter = {
-                id: 0,
-                code: 0
-            };
+            
+            var counter = $.localStorage.get('counter') || { id: 0, code: 0 };
+
             var getCounter = function() {
-                var counter = $.localStorage.get('counter');
                 $.ajax({
                     url:'api/counter',
-                    data: { id: counter ? counter.id : 0 },
-                    success:function(ret) {
-                        if (counter && counter.id == ret.id)
+                    data: { id: counter.id },
+                    success: function(data) {
+                        if (counter.id != data.id) {
+                            $.localStorage.set('counter', data);
+                            $('#counter').text(data.code);
+                        } else {
                             $('#counter').text(counter.code);
-                        else {
-                            counter = ret;
-                            $('#counter').text(counter.code);
-                            $.localStorage.set('counter', counter);
                         }
                     }
                 });
