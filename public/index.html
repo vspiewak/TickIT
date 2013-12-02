@@ -7,22 +7,32 @@
         <div class="ticket">
             <div id="counter"></div>
         </div>
+        </div>
         <script src="vendor/jquery-1.10.2.min.js" type="text/javascript"></script>
         <script src="vendor/jquery.storageapi.min.js" type="text/javascript"></script>
         <script type="text/javascript">
         $(document).ready(function() {
-            var getCode = function() {
-                var code = $.localStorage.get('code');
-                if (code)
-                    $('#counter').text(code);
-                else {
-                    $.ajax({url:'api/code', success:function(ret) {
-                        $('#counter').text(ret.code);
-                        $.localStorage.set('code', ret.code);
-                    }});
-                }
+            var counter = {
+                id: 0,
+                code: 0
             };
-            getCode();
+            var getCounter = function() {
+                var counter = $.localStorage.get('counter');
+                $.ajax({
+                    url:'api/counter',
+                    data: { id: counter ? counter.id : 0 },
+                    success:function(ret) {
+                        if (counter && counter.id == ret.id)
+                            $('#counter').text(counter.code);
+                        else {
+                            counter = ret;
+                            $('#counter').text(counter.code);
+                            $.localStorage.set('counter', counter);
+                        }
+                    }
+                });
+            };
+            getCounter();
         });
         </script>
     </body>

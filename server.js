@@ -107,15 +107,22 @@ var TickItApp = function() {
             res.send(self.cache_get('index.html') );
         };*/
 
-        self.routes['/api/code'] = function(req, res) {
-            
-            var counter = fs.readFileSync("counter.txt").toString();
-            counter = parseInt(counter);
-            counter++;
-            fs.writeFile("counter.txt", counter);
+        self.routes['/api/counter'] = function(req, res) {
 
-            var ret = self.leftPad(counter);
-            res.json({ code: ret });
+            var counter = {id: null, code: null};
+            var serializedC = fs.readFileSync("counter.txt").toString();
+            serializedC = serializedC.split(';');
+            if (serializedC.length<2)
+                counter = {id: new Date().getTime(), code: 0};
+            else {
+                counter.code = parseInt(serializedC[0]);
+                counter.id = serializedC[1];
+            }
+            counter.code += 1;
+            fs.writeFile("counter.txt", counter.code+';'+counter.id);
+
+            counter.code = self.leftPad(counter.code);
+            res.json(counter);
         };
 
         self.routes['/api/reset'] = function(req, res) {
@@ -123,7 +130,7 @@ var TickItApp = function() {
             res.send(200);
         };
 
-    }
+    };
 
     /**
      *  Initialize the server (express) and create the routes and register
