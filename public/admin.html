@@ -1,22 +1,27 @@
 <html>
     <head>
+        <title>Admin</title>
         <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" type="text/css" href="style/app.css">
         <link rel="stylesheet" type="text/css" href="style/button.min.css">
     </head>
-    <body>
-        <div class="label">Last Ticket</div>
-        <div class="ticket-small">
-            <div id="last" class="label"></div>
+    <body class="admin">
+
+        <div class="label">Last taken Ticket</div>
+
+        <div class="ticket">
+            <div class="counter" id="counter"></div>
         </div>
 
         <div class="panel">
-            <button id="take-ticket" class="ui button">Take A Ticket</button>
+            <button id="take-ticket" class="ui button massive">Take A Ticket</button>
         </div>
         
         <div id="ticket-next">
-            <div class="ticket-small">
-                <div id="next" class="label"></div>
+            <div class="ico-close" id="btn-close"></div>
+            <div class="label">Your Ticket</div>
+            <div class="ticket">
+                <div class="counter" id="next"></div>
             </div>
         </div>
         
@@ -30,12 +35,10 @@
                 $.ajax({
                     url:'api/status',
                     success:function(data) {
-                        $('#last').text(data.code);
+                        $('#counter').text(data.code);
                     }
                 });
             };
-            
-            setInterval(getCounter, 500);
 
             // take a ticket
             var getTicket = function() {
@@ -49,8 +52,17 @@
                 });
             };
 
+            var nextTicket = $('#ticket-next');
+
+            nextTicket.click(function() {
+                nextTicket.hide();
+            });
+
+            getCounter();
+            setInterval(getCounter, 500);
+
             $('#take-ticket').click(getTicket);
-            $('#ticket-next').hide();
+            nextTicket.hide();
 
         });
         </script>

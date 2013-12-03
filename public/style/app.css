@@ -2,6 +2,7 @@ body {
     font-family: 'Roboto Condensed', sans-serif;
     font-size: 250px;
     background-image: url('img/ticks.png');
+    color: #2B2B2B;
 }
 
 .ticket {
@@ -12,7 +13,11 @@ body {
     background: url('img/ticket.png') center no-repeat;
 }
 
-#counter {
+.admin .ticket {
+    margin-top: 30px;
+}
+
+.counter {
     top: 50px;
     position: absolute;
     text-align: center;
@@ -26,21 +31,36 @@ body {
 
 }
 
-.ticket-small {
-    width: 300px;
-    height: 146px;
-    background: url('img/ticket-small.png') center no-repeat;
-    margin: 10px auto 0 auto;
-}
-
-.ticket-small .label {
-    top: 6px;
-    left: 0;
-    position: relative;
-    font-size: 95px;
-}
-
 .panel {
     padding-top: 80px;
     text-align: center;
+}
+
+#ticket-next {
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,.8);
+}
+
+#ticket-next .label {
+    color: lightgray;
+}
+
+.ico-close {
+    background-image: url('img/circle_delete.png');
+    height: 128px;
+    width: 128px;
+    cursor: pointer;
+}
+
+#ticket-next .ico-close {
+    position: absolute;
+    right: 20px;
+    top: 20px;
 }
