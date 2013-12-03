@@ -57,6 +57,7 @@ body {
     height: 128px;
     width: 128px;
     cursor: pointer;
+    z-index: 1;
 }
 
 #ticket-next .ico-close {
