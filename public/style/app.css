@@ -18,3 +18,29 @@ body {
     text-align: center;
     width: 900px;
 }
+
+.label {
+    margin-top: 30px;
+    font-size: 50px;
+    text-align: center;
+
+}
+
+.ticket-small {
+    width: 300px;
+    height: 146px;
+    background: url('img/ticket-small.png') center no-repeat;
+    margin: 10px auto 0 auto;
+}
+
+.ticket-small .label {
+    top: 6px;
+    left: 0;
+    position: relative;
+    font-size: 95px;
+}
+
+.panel {
+    padding-top: 80px;
+    text-align: center;
+}

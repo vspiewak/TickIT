@@ -2,26 +2,55 @@
     <head>
         <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" type="text/css" href="style/app.css">
+        <link rel="stylesheet" type="text/css" href="style/button.min.css">
     </head>
     <body>
-        <div class="ticket">
-            <div id="counter"></div>
+        <div class="label">Last Ticket</div>
+        <div class="ticket-small">
+            <div id="last" class="label"></div>
         </div>
+
+        <div class="panel">
+            <button id="take-ticket" class="ui button">Take A Ticket</button>
+        </div>
+        
+        <div id="ticket-next">
+            <div class="ticket-small">
+                <div id="next" class="label"></div>
+            </div>
+        </div>
+        
         <script src="vendor/jquery-1.10.2.min.js" type="text/javascript"></script>
         <script src="vendor/jquery.storageapi.min.js" type="text/javascript"></script>
         <script type="text/javascript">
         $(document).ready(function() {
 
+            // last ticket
             var getCounter = function() {
                 $.ajax({
                     url:'api/status',
                     success:function(data) {
-                        $('#counter').text(data.code);
+                        $('#last').text(data.code);
+                    }
+                });
+            };
+            
+            setInterval(getCounter, 500);
+
+            // take a ticket
+            var getTicket = function() {
+                $.ajax({
+                    url:'api/counter',
+                    data: {},
+                    success:function(data) {
+                        $('#next').text(data.code);
+                        $('#ticket-next').show();
                     }
                 });
             };
 
-            setInterval(getCounter, 500);
+            $('#take-ticket').click(getTicket);
+            $('#ticket-next').hide();
 
         });
         </script>
