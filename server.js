@@ -86,10 +86,32 @@ var TickItApp = function() {
     self.createRoutes = function() {
         self.routes = { };
 
+        self.routes['/api/set'] = function(req, res) {
+            
+            var start = req.query.start;
+            var end = req.query.end;
+
+            var counter = self.readCounter();
+            
+            if(!start || !end || start < counter.code || start > end) {
+               res.send(400);
+            }
+
+            counter.code = start - 1;
+            counter.end = end;
+            self.writeCounter(counter);
+
+            res.send(200);
+        };
+
         self.routes['/api/counter'] = function(req, res) {
             
             var counter = self.readCounter();
             
+            if(counter.end && counter.end <= counter.code) {
+              res.send(404);
+            }
+
             if(req.query.id != counter.id) {
               counter.code += 1;
               self.writeCounter(counter);
