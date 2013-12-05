@@ -16,7 +16,13 @@
         <div class="panel">
             <button id="take-ticket" class="ui button massive">Take A Ticket</button>
         </div>
-        
+
+        <div class="set-counter">
+            <input class="ticket-start" id="ticket-start" type="number" min="0">
+            <input id="ticket-end" type="number" min="0">
+            <button class="ui button massive" id="set-range">Set Range</button>
+        </div>
+
         <div id="ticket-next">
             <div class="ico-close" id="btn-close"></div>
             <div class="label">Your Ticket</div>
@@ -56,6 +62,15 @@
 
             nextTicket.click(function() {
                 nextTicket.hide();
+            });
+
+            $('#set-range').click(function() {
+                $.ajax({
+                    url:'api/set?start='+$('#ticket-start').val()+'&end='+$('#ticket-end').val(),
+                    data: {},
+                    success: function() {
+                    }
+                });
             });
 
             getCounter();
